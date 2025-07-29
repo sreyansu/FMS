@@ -4,7 +4,6 @@ import "./globals.css";
 import AuthProvider from '@/components/providers/AuthProvider';
 import ToastProvider from '@/components/providers/ToastProvider';
 import Header from '@/components/layout/Header';
-import { ThemeProvider } from "@/components/theme-provider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -22,15 +21,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <AuthProvider>
+    <html lang="en">
+      <body className={`${inter.className} antialiased bg-gray-50`}>
+        <AuthProvider>
           <div className="min-h-screen flex flex-col">
             <Header />
             <main className="flex-1">
@@ -39,7 +32,6 @@ export default function RootLayout({
           </div>
           <ToastProvider />
         </AuthProvider>
-        </ThemeProvider>
       </body>
     </html>
   );

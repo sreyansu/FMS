@@ -1,21 +1,10 @@
 'use client';
 
 import { useSession, signOut } from 'next-auth/react';
-import type { Session } from 'next-auth';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { LogOut, User, MessageSquare, LayoutDashboard } from 'lucide-react';
+import { LogOut, User, MessageSquare, BarChart3 } from 'lucide-react';
 import Button from '@/components/ui/Button';
-import { ModeToggle } from "@/components/ui/mode-toggle";
-
-interface CustomSession extends Session {
-  user: {
-    id: string;
-    email: string;
-    name: string;
-    role: string;
-  };
-}
 
 export default function Header() {
   const { data: session, status } = useSession();
@@ -26,68 +15,69 @@ export default function Header() {
     router.push('/');
   };
 
-  const renderUserActions = () => {
-    if (status === 'loading') {
-      return <div className="w-24 h-8 animate-pulse bg-muted rounded-md" />;
-    }
-
-    if (session) {
-      const customSession = session as unknown as CustomSession;
-      return (
-        <div className="flex items-center gap-4">
-          <span className="hidden sm:inline-flex items-center gap-2 text-sm font-medium text-muted-foreground">
-            <User className="h-5 w-5" />
-            {customSession.user?.name || 'User'}
-          </span>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => router.push('/dashboard/forms')}
-          >
-            <LayoutDashboard className="h-4 w-4 mr-2" />
-            Dashboard
-          </Button>
-          <Button variant="ghost" size="sm" onClick={handleSignOut}>
-            <LogOut className="h-4 w-4 mr-2" />
-            Sign Out
-          </Button>
-        </div>
-      );
-    }
-
-    return (
-      <div className="flex items-center gap-2">
-        <Link href="/login">
-          <Button variant="ghost" size="sm">
-            Sign In
-          </Button>
-        </Link>
-        <Link href="/signup">
-          <Button size="sm">Sign Up</Button>
-        </Link>
-      </div>
-    );
-  };
-
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center">
-        <div className="mr-4 hidden md:flex">
-          <Link href="/" className="flex items-center space-x-2">
-            <MessageSquare className="h-6 w-6 text-primary" />
-            <span className="hidden font-bold sm:inline-block">
-              FeedbackHub
-            </span>
-          </Link>
-        </div>
-        <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-          <div className="w-full flex-1 md:w-auto md:flex-none">
-            {/* <CommandMenu /> */}
+    <header className="bg-white shadow-sm border-b border-gray-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          <div className="flex items-center">
+            <Link href="/" className="flex items-center space-x-2">
+              <MessageSquare className="h-8 w-8 text-primary" />
+              <span className="text-xl font-bold text-gray-900">
+                FeedbackHub
+              </span>
+            </Link>
           </div>
-          <nav className="flex items-center space-x-2">
-            <ModeToggle />
-            {renderUserActions()}
+
+          <nav className="hidden md:flex items-center space-x-6">
+            <Link
+              href="/"
+              className="text-gray-600 hover:text-gray-900 transition-colors"
+            >
+              Home
+            </Link>
+
+
           </nav>
+
+          <div className="flex items-center space-x-4">
+            {status === 'loading' ? (
+              <div className="w-8 h-8 animate-pulse bg-gray-200 rounded-full" />
+            ) : session ? (
+              <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-2">
+                  <User className="h-5 w-5 text-gray-600" />
+                  <span className="text-sm text-gray-700">
+                    {session.user.name}
+                  </span>
+                  {session.user.role === 'admin' && (
+                    <span className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">
+                      Admin
+                    </span>
+                  )}
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleSignOut}
+                  className="flex items-center space-x-1"
+                >
+                  <LogOut className="h-4 w-4" />
+                  <span>Sign Out</span>
+                </Button>
+              </div>
+            ) : (
+              <div className="flex items-center space-x-2">
+                <Link href="/login">
+                  <Button variant="outline" size="sm">
+                    Sign In
+                  </Button>
+                </Link>
+                <Link href="/signup">
+                  <Button size="sm">Sign Up</Button>
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </header>
