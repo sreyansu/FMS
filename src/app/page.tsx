@@ -4,23 +4,22 @@ import Button from '@/components/ui/Button';
 
 export default function Home() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-50 to-indigo-100 py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+            <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
               Collect Feedback
-                            <span className="text-primary block">That Matters</span>
+              <span className="text-primary block">That Matters</span>
             </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              A complete feedback collection system with powerful admin dashboard,
+            <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+              A complete feedback collection system with a powerful admin dashboard,
               analytics, and export capabilities. Built with Next.js and MongoDB.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-
               <Link href="/signup">
-                <Button variant="outline" size="lg" className="w-full sm:w-auto">
+                <Button variant="default" size="lg" className="w-full sm:w-auto">
                   Get Started
                 </Button>
               </Link>
@@ -30,62 +29,62 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 bg-secondary/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               Everything You Need
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Powerful features to collect, manage, and analyze feedback effectively.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="text-center p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
-              <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <MessageSquare className="h-8 w-8 text-primary" />
+            <div className="text-center p-6 rounded-lg border bg-card text-card-foreground hover:shadow-lg transition-shadow">
+              <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <MessageSquare className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              <h3 className="text-xl font-semibold text-foreground mb-2">
                 Easy Feedback Forms
               </h3>
-              <p className="text-gray-600">
+              <p className="text-muted-foreground">
                 Customizable forms with validation, ratings, and rich text support.
               </p>
             </div>
 
-            <div className="text-center p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
-              <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shield className="h-8 w-8 text-green-600" />
+            <div className="text-center p-6 rounded-lg border bg-card text-card-foreground hover:shadow-lg transition-shadow">
+              <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Shield className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              <h3 className="text-xl font-semibold text-foreground mb-2">
                 Secure Authentication
               </h3>
-              <p className="text-gray-600">
+              <p className="text-muted-foreground">
                 NextAuth.js with role-based access control and secure password hashing.
               </p>
             </div>
 
-            <div className="text-center p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
-              <div className="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <BarChart3 className="h-8 w-8 text-purple-600" />
+            <div className="text-center p-6 rounded-lg border bg-card text-card-foreground hover:shadow-lg transition-shadow">
+              <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <BarChart3 className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              <h3 className="text-xl font-semibold text-foreground mb-2">
                 Analytics Dashboard
               </h3>
-              <p className="text-gray-600">
+              <p className="text-muted-foreground">
                 Comprehensive charts, filters, and insights about your feedback.
               </p>
             </div>
 
-            <div className="text-center p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
-              <div className="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Download className="h-8 w-8 text-orange-600" />
+            <div className="text-center p-6 rounded-lg border bg-card text-card-foreground hover:shadow-lg transition-shadow">
+              <div className="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Download className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              <h3 className="text-xl font-semibold text-foreground mb-2">
                 Data Export
               </h3>
-              <p className="text-gray-600">
+              <p className="text-muted-foreground">
                 Export feedback data to CSV for further analysis and reporting.
               </p>
             </div>
@@ -94,25 +93,24 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-blue-600 py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+      <section className="bg-primary py-16">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
             Ready to Get Started?
           </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
             Join thousands of users who trust FeedbackHub for their feedback collection needs.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/signup">
               <Button
-                variant="outline"
+                variant="secondary"
                 size="lg"
                 className="w-full sm:w-auto"
               >
                 Create Account
               </Button>
             </Link>
-
           </div>
         </div>
       </section>

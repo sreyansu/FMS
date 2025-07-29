@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { LogOut, User, MessageSquare, BarChart3 } from 'lucide-react';
 import Button from '@/components/ui/Button';
+import { ModeToggle } from "@/components/ui/mode-toggle";
 
 export default function Header() {
   const { data: session, status } = useSession();
@@ -16,13 +17,13 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-white shadow-sm border-b border-gray-200">
+    <header className="bg-background shadow-sm border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-2">
               <MessageSquare className="h-8 w-8 text-primary" />
-              <span className="text-xl font-bold text-gray-900">
+              <span className="text-xl font-bold">
                 FeedbackHub
               </span>
             </Link>
@@ -40,6 +41,7 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center space-x-4">
+            <ModeToggle />
             {status === 'loading' ? (
               <div className="w-8 h-8 animate-pulse bg-gray-200 rounded-full" />
             ) : session ? (
