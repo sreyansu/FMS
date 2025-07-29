@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { signIn, getSession } from 'next-auth/react';
+import type { Session } from 'next-auth';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -12,6 +13,15 @@ import { Eye, EyeOff } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import { loginSchema, LoginInput } from '@/lib/validations';
+
+interface CustomSession extends Session {
+  user: {
+    id: string;
+    email: string;
+    name: string;
+    role: string;
+  };
+}
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -41,7 +51,7 @@ export default function LoginPage() {
         return;
       }
 
-      const session = await getSession();
+      const session = await getSession() as CustomSession | null;
       
       toast.success('Successfully signed in!');
       
@@ -51,7 +61,7 @@ export default function LoginPage() {
         router.push('/');
       }
       
-    } catch (error) {
+    } catch {
       toast.error('Something went wrong. Please try again.');
     } finally {
       setIsLoading(false);
@@ -100,7 +110,7 @@ export default function LoginPage() {
           </Button>
         </form>
         <p className="text-center text-sm text-muted-foreground">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{' '}
           <Link
             href="/signup"
             className="underline underline-offset-4 hover:text-primary"

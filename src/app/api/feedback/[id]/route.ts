@@ -1,26 +1,37 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
+import { getServerSession } from 'next-auth/next';
+import type { Session } from 'next-auth';
 import connectDB from '@/lib/mongodb';
 import Feedback from '@/models/Feedback';
 import { authOptions } from '@/lib/auth';
 
+interface CustomSession extends Session {
+  user: {
+    id: string;
+    email: string;
+    name: string;
+    role: string;
+  };
+}
+
 // DELETE feedback (admin only)
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  segmentData: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectDB();
     
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(authOptions) as CustomSession | null;
     
-    if (!session || session.user.role !== 'admin') {
+    if (!session || !session.user || session.user.role !== 'admin') {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       );
     }
 
+    const params = await segmentData.params;
     const feedback = await Feedback.findByIdAndDelete(params.id);
 
     if (!feedback) {
@@ -47,14 +58,14 @@ export async function DELETE(
 // PATCH feedback (admin only) - for archiving/unarchiving
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } }
+  segmentData: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectDB();
     
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(authOptions) as CustomSession | null;
     
-    if (!session || session.user.role !== 'admin') {
+    if (!session || !session.user || session.user.role !== 'admin') {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
@@ -70,6 +81,7 @@ export async function PATCH(
       );
     }
 
+    const params = await segmentData.params;
     const feedback = await Feedback.findByIdAndUpdate(
       params.id,
       { status },

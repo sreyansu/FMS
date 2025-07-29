@@ -1,9 +1,19 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
+import type { Session } from 'next-auth';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import Loading from '@/components/ui/Loading';
+
+interface CustomSession extends Session {
+  user: {
+    id: string;
+    email: string;
+    name: string;
+    role: string;
+  };
+}
 
 interface AdminRouteProps {
   children: React.ReactNode;
@@ -21,7 +31,8 @@ export default function AdminRoute({ children }: AdminRouteProps) {
       return;
     }
 
-    if (session.user.role !== 'admin') {
+    const customSession = session as unknown as CustomSession;
+    if (!customSession.user || customSession.user.role !== 'admin') {
       router.push('/');
       return;
     }
@@ -35,7 +46,16 @@ export default function AdminRoute({ children }: AdminRouteProps) {
     );
   }
 
-  if (!session || session.user.role !== 'admin') {
+  if (!session) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loading size="lg" text="Redirecting..." />
+      </div>
+    );
+  }
+
+  const customSession = session as unknown as CustomSession;
+  if (!customSession.user || customSession.user.role !== 'admin') {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Loading size="lg" text="Redirecting..." />

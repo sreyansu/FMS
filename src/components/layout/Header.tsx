@@ -1,11 +1,21 @@
 'use client';
 
 import { useSession, signOut } from 'next-auth/react';
+import type { Session } from 'next-auth';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { LogOut, User, MessageSquare, LayoutDashboard } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import { ModeToggle } from "@/components/ui/mode-toggle";
+
+interface CustomSession extends Session {
+  user: {
+    id: string;
+    email: string;
+    name: string;
+    role: string;
+  };
+}
 
 export default function Header() {
   const { data: session, status } = useSession();
@@ -22,11 +32,12 @@ export default function Header() {
     }
 
     if (session) {
+      const customSession = session as unknown as CustomSession;
       return (
         <div className="flex items-center gap-4">
           <span className="hidden sm:inline-flex items-center gap-2 text-sm font-medium text-muted-foreground">
             <User className="h-5 w-5" />
-            {session.user.name}
+            {customSession.user?.name || 'User'}
           </span>
           <Button
             variant="outline"
@@ -69,7 +80,10 @@ export default function Header() {
             </span>
           </Link>
         </div>
-        <div className="flex flex-1 items-center justify-end space-x-4">
+        <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
+          <div className="w-full flex-1 md:w-auto md:flex-none">
+            {/* <CommandMenu /> */}
+          </div>
           <nav className="flex items-center space-x-2">
             <ModeToggle />
             {renderUserActions()}

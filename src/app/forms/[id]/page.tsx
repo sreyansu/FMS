@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import toast from 'react-hot-toast';
 import Button from '@/components/ui/Button';
 
 interface Field {

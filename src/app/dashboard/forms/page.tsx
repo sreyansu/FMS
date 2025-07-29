@@ -8,11 +8,19 @@ import toast from 'react-hot-toast';
 import Button from '@/components/ui/Button';
 import Switch from '@/components/ui/Switch';
 
+interface FormField {
+  id: string;
+  type: string;
+  label: string;
+  required?: boolean;
+  options?: string[];
+}
+
 interface IForm {
   _id: string;
   title: string;
   description: string;
-  fields: any[];
+  fields: FormField[];
   createdAt: string;
   status: 'active' | 'closed';
 }

@@ -5,11 +5,12 @@ import Form from '@/models/Form';
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  segmentData: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectDB();
 
+    const params = await segmentData.params;
     const form = await Form.findById(params.id);
 
     if (!form || form.status !== 'active') {

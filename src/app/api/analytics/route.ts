@@ -1,16 +1,26 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
+import { getServerSession } from 'next-auth/next';
+import type { Session } from 'next-auth';
 import connectDB from '@/lib/mongodb';
 import Feedback from '@/models/Feedback';
 import { authOptions } from '@/lib/auth';
+
+interface CustomSession extends Session {
+  user: {
+    id: string;
+    email: string;
+    name: string;
+    role: string;
+  };
+}
 
 export async function GET() {
   try {
     await connectDB();
     
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(authOptions) as CustomSession | null;
     
-    if (!session || session.user.role !== 'admin') {
+    if (!session || !session.user || session.user.role !== 'admin') {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }

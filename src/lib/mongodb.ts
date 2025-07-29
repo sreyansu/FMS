@@ -11,11 +11,16 @@ interface MongooseCache {
   promise: Promise<typeof mongoose> | null;
 }
 
-// Use global variable to prevent multiple connections during hot reloads in development
-let cached: MongooseCache = (global as any).mongoose;
+// Declare global type for mongoose cache
+declare global {
+  var mongoose: MongooseCache | undefined;
+}
 
-if (!cached) {
-  cached = (global as any).mongoose = { conn: null, promise: null };
+// Use global variable to prevent multiple connections during hot reloads in development
+const cached: MongooseCache = global.mongoose || { conn: null, promise: null };
+
+if (!global.mongoose) {
+  global.mongoose = cached;
 }
 
 async function connectDB(): Promise<typeof mongoose> {

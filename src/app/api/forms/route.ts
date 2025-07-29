@@ -1,14 +1,24 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
+import type { Session } from 'next-auth';
 
 import { authOptions } from '@/lib/auth';
 import connectDB from '@/lib/mongodb';
 import Form from '@/models/Form';
 
-export async function GET() {
-  const session = await getServerSession(authOptions);
+interface CustomSession extends Session {
+  user: {
+    id: string;
+    email: string;
+    name: string;
+    role: string;
+  };
+}
 
-  if (!session) {
+export async function GET() {
+  const session = await getServerSession(authOptions) as CustomSession | null;
+
+  if (!session || !session.user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Table, Tr, Th, Td } from '@/components/ui/Table';
-import { Edit, Trash, Archive, RefreshCw } from 'lucide-react';
+import { Trash, Archive, RefreshCw } from 'lucide-react';
 import toast from 'react-hot-toast';
 import Loading from '@/components/ui/Loading';
 import Button from '@/components/ui/Button';
@@ -138,7 +138,7 @@ export default function FeedbackTable() {
                   <span>Toggle</span>
                 </Button>
                 <Button
-                  variant="danger"
+                  variant="destructive"
                   onClick={() => handleDelete(feedback._id)}
                   size="sm"
                   className="flex items-center space-x-1"
