@@ -1,13 +1,6 @@
-import NextAuth from 'next-auth';
+import NextAuth from 'next-auth/next';
 import { authOptions } from '@/lib/auth';
 
-// Workaround for NextAuth.js v4 with App Router
-const handler = NextAuth as (options: typeof authOptions) => {
-  GET: (req: Request) => Promise<Response>;
-  POST: (req: Request) => Promise<Response>;
-};
+const handler = NextAuth(authOptions);
 
-const auth = handler(authOptions);
-
-export const GET = auth.GET;
-export const POST = auth.POST;
+export { handler as GET, handler as POST };
