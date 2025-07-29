@@ -4,7 +4,7 @@ import Button from '@/components/ui/Button';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background">
+    <>
       {/* Hero Section */}
       <section className="py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -114,6 +114,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 }
