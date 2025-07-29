@@ -19,7 +19,7 @@ interface Feedback {
 }
 
 export default function FeedbackTable() {
-  const [feedbackList, setFeedbackList] = useState09;
+  const [feedbackList, setFeedbackList] = useState<Feedback[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export default function FeedbackTable() {
 
         setFeedbackList(feedback);
       } catch (error) {
-        toast.error(error.message);
+        toast.error(error instanceof Error ? error.message : 'Failed to fetch feedback');
       } finally {
         setLoading(false);
       }
@@ -43,7 +43,7 @@ export default function FeedbackTable() {
     fetchFeedback();
   }, []);
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: string) => {
     try {
       const response = await fetch(`/api/feedback/${id}`, { method: 'DELETE' });
 
@@ -54,11 +54,11 @@ export default function FeedbackTable() {
       setFeedbackList(feedbackList.filter((item) => item._id !== id));
       toast.success('Feedback deleted successfully');
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error instanceof Error ? error.message : 'Failed to delete feedback');
     }
   };
 
-  const handleArchiveToggle = async (id, status) => {
+  const handleArchiveToggle = async (id: string, status: string) => {
     try {
       const newStatus = status === 'active' ? 'archived' : 'active';
       const response = await fetch(`/api/feedback/${id}`, {
@@ -81,7 +81,7 @@ export default function FeedbackTable() {
 
       toast.success(`Feedback ${newStatus === 'active' ? 'unarchived' : 'archived'} successfully`);
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error instanceof Error ? error.message : 'Failed to update status');
     }
   };
 
@@ -115,11 +115,10 @@ export default function FeedbackTable() {
               <Td>{new Date(feedback.createdAt).toLocaleDateString()}</Td>
               <Td>
                 <span
-                  className={`$ {
-                    feedback.status === 'active'
+                  className={`${feedback.status === 'active'
                       ? 'text-green-500'
                       : 'text-gray-500'
-                  }`}
+                    }`}
                 >
                   {feedback.status}
                 </span>
