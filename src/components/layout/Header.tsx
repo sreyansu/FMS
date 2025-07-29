@@ -35,21 +35,8 @@ export default function Header() {
             >
               Home
             </Link>
-            <Link
-              href="/feedback"
-              className="text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              Submit Feedback
-            </Link>
-            {session?.user?.role === 'admin' && (
-              <Link
-                href="/dashboard"
-                className="flex items-center space-x-1 text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                <BarChart3 className="h-4 w-4" />
-                <span>Dashboard</span>
-              </Link>
-            )}
+
+
           </nav>
 
           <div className="flex items-center space-x-4">

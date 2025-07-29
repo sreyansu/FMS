@@ -28,6 +28,11 @@ const FormSchema = new Schema({
     type: [FieldSchema],
     required: true,
   },
+  status: {
+    type: String,
+    enum: ['active', 'closed'],
+    default: 'active',
+  },
   createdBy: {
     type: Schema.Types.ObjectId,
     ref: 'User',

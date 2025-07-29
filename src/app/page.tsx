@@ -18,11 +18,7 @@ export default function Home() {
               analytics, and export capabilities. Built with Next.js and MongoDB.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/feedback">
-                <Button size="lg" className="w-full sm:w-auto">
-                  Submit Feedback
-                </Button>
-              </Link>
+
               <Link href="/signup">
                 <Button variant="outline" size="lg" className="w-full sm:w-auto">
                   Get Started
@@ -116,15 +112,7 @@ export default function Home() {
                 Create Account
               </Button>
             </Link>
-            <Link href="/feedback">
-              <Button
-                variant="outline"
-                size="lg"
-                className="w-full sm:w-auto border-white text-white hover:bg-blue-700"
-              >
-                Try Demo
-              </Button>
-            </Link>
+
           </div>
         </div>
       </section>
