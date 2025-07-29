@@ -11,7 +11,7 @@ export default function Home() {
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
               Collect Feedback
-              <span className="text-blue-600 block">That Matters</span>
+                            <span className="text-primary block">That Matters</span>
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
               A complete feedback collection system with powerful admin dashboard,
@@ -48,7 +48,7 @@ export default function Home() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="text-center p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
               <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <MessageSquare className="h-8 w-8 text-blue-600" />
+                                <MessageSquare className="h-8 w-8 text-primary" />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
                 Easy Feedback Forms
@@ -109,9 +109,9 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/signup">
               <Button
-                variant="secondary"
+                variant="outline"
                 size="lg"
-                className="w-full sm:w-auto bg-white text-blue-600 hover:bg-gray-100"
+                className="w-full sm:w-auto"
               >
                 Create Account
               </Button>

@@ -12,8 +12,26 @@ import AnalyticsCards from '@/components/dashboard/AnalyticsCards';
 import FeedbackTable from '@/components/dashboard/FeedbackTable';
 import Loading from '@/components/ui/Loading';
 
+interface RatingDistribution {
+  _id: number;
+  count: number;
+}
+
+interface FeedbackVolume {
+  _id: string;
+  count: number;
+}
+
+interface AnalyticsData {
+  totalFeedback: number;
+  averageRating: number;
+  statusDistribution: Record<string, number>;
+  ratingDistribution: RatingDistribution[];
+  feedbackVolume: FeedbackVolume[];
+}
+
 export default function DashboardPage() {
-  const [analytics, setAnalytics] = useState(null);
+    const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -26,8 +44,12 @@ export default function DashboardPage() {
           throw new Error(result.error || 'Failed to fetch analytics');
         }
         setAnalytics(result);
-      } catch (error) {
-        toast.error(error.message);
+            } catch (error) {
+        if (error instanceof Error) {
+          toast.error(error.message);
+        } else {
+          toast.error('An unknown error occurred while fetching analytics.');
+        }
       } finally {
         setLoading(false);
       }
@@ -53,8 +75,12 @@ export default function DashboardPage() {
       document.body.appendChild(a);
       a.click();
       a.remove();
-    } catch (error) {
-      toast.error(error.message);
+        } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error('An unknown error occurred during export.');
+      }
     }
   };
 
@@ -71,7 +97,7 @@ export default function DashboardPage() {
       <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-3xl font-bold text-gray-900 flex items-center">
-            <BarChart3 className="h-8 w-8 mr-2 text-blue-600" /> Dashboard
+            <BarChart3 className="h-8 w-8 mr-2 text-primary" /> Dashboard
           </h1>
           <Button variant="outline" onClick={handleExport} className="flex items-center">
             <Download className="h-5 w-5 mr-2 text-gray-500" /> Export CSV
@@ -110,29 +136,29 @@ export default function DashboardPage() {
   );
 }
 
-function getRatingChartData(ratingDistribution) {
+function getRatingChartData(ratingDistribution: RatingDistribution[]) {
   return {
-    labels: ratingDistribution.map((data) => `Rating ${data._id}`),
+        labels: ratingDistribution.map((data) => `Rating ${data._id}`),
     datasets: [
       {
         data: ratingDistribution.map((data) => data.count),
-        backgroundColor: ['#fbbf24', '#f97316', '#ef4444', '#e11d48', '#be123c'],
-        hoverBackgroundColor: ['#f59e0b', '#ea580c', '#dc2626', '#be123c', '#9f1239'],
+        backgroundColor: ['#f59e0b', '#f97316', '#ef4444', '#dc2626', '#b91c1c'],
+        hoverBackgroundColor: ['#fbbf24', '#fb923c', '#f87171', '#ef4444', '#dc2626'],
         borderWidth: 1,
       },
     ],
   };
 }
 
-function getVolumeChartData(feedbackVolume) {
+function getVolumeChartData(feedbackVolume: FeedbackVolume[]) {
   return {
-    labels: feedbackVolume.map((data) => data._id),
+        labels: feedbackVolume.map((data) => data._id),
     datasets: [
       {
         label: 'Feedback Count',
         data: feedbackVolume.map((data) => data.count),
-        backgroundColor: '#3b82f6',
-        borderColor: '#3b82f6',
+        backgroundColor: '#4f46e5',
+        borderColor: '#4338ca',
         borderWidth: 1,
       },
     ],

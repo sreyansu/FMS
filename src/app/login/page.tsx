@@ -65,7 +65,7 @@ export default function LoginPage() {
       <div className="max-w-md w-full space-y-8">
         <div>
           <div className="flex justify-center">
-            <LogIn className="h-12 w-12 text-blue-600" />
+                        <LogIn className="h-12 w-12 text-primary" />
           </div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Sign in to your account
@@ -74,7 +74,7 @@ export default function LoginPage() {
             Or{' '}
             <Link
               href="/signup"
-              className="font-medium text-blue-600 hover:text-blue-500"
+              className="font-medium text-primary hover:text-primary-dark"
             >
               create a new account
             </Link>

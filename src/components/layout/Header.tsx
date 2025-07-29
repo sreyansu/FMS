@@ -21,7 +21,7 @@ export default function Header() {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-2">
-              <MessageSquare className="h-8 w-8 text-blue-600" />
+              <MessageSquare className="h-8 w-8 text-primary" />
               <span className="text-xl font-bold text-gray-900">
                 FeedbackHub
               </span>

@@ -9,10 +9,22 @@ module.exports = {
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui'],
       },
-      colors: {
-        primary: '#3B82F6',
-        secondary: '#64748B',
-        danger: '#EF4444',
+            colors: {
+        primary: {
+          DEFAULT: '#4f46e5',
+          dark: '#4338ca',
+        },
+        secondary: {
+          DEFAULT: '#64748b',
+          dark: '#475569',
+        },
+        danger: {
+          DEFAULT: '#dc2626',
+          dark: '#b91c1c',
+        },
+        success: '#22c55e',
+        warning: '#f59e0b',
+        info: '#0ea5e9',
       },
     },
   },

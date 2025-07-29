@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -13,8 +14,23 @@ import StarRating from '@/components/ui/StarRating';
 import { feedbackSchema, FeedbackInput } from '@/lib/validations';
 
 export default function FeedbackPage() {
+    const { data: session, status } = useSession();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/login');
+    }
+  }, [status, router]);
+
+  if (status === 'loading') {
+    return <p>Loading...</p>;
+  }
+
+  if (status === 'unauthenticated') {
+    return null; // or a login prompt
+  }
 
   const {
     register,
@@ -29,7 +45,7 @@ export default function FeedbackPage() {
     },
   });
 
-  const onSubmit = async (data: FeedbackInput) => {
+      const onSubmit = async (data: Omit<FeedbackInput, 'name' | 'email'>) => {
     if (data.rating === 0) {
       toast.error('Please select a rating');
       return;
@@ -38,12 +54,16 @@ export default function FeedbackPage() {
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/feedback', {
+                  const response = await fetch('/api/feedback', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ 
+          ...data, 
+          email: session?.user?.email,
+          name: session?.user?.name
+        }),
       });
 
       const result = await response.json();
@@ -68,7 +88,7 @@ export default function FeedbackPage() {
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
-            <MessageSquare className="h-12 w-12 text-blue-600" />
+            <MessageSquare className="h-12 w-12 text-primary" />
           </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-4">
             We Value Your Feedback
@@ -80,23 +100,7 @@ export default function FeedbackPage() {
 
         <div className="bg-white rounded-lg shadow-lg p-8">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
-              <Input
-                label="Your Name"
-                type="text"
-                placeholder="Enter your full name"
-                {...register('name')}
-                error={errors.name?.message}
-              />
-
-              <Input
-                label="Email Address"
-                type="email"
-                placeholder="Enter your email"
-                {...register('email')}
-                error={errors.email?.message}
-              />
-            </div>
+           
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">

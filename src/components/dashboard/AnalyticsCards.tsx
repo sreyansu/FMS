@@ -5,7 +5,7 @@ import { MessageSquare, Star, TrendingUp, Users } from 'lucide-react';
 interface AnalyticsCardsProps {
   totalFeedback: number;
   averageRating: number;
-  statusDistribution: Array<{ _id: string; count: number }>;
+    statusDistribution: Record<string, number>;
 }
 
 export default function AnalyticsCards({
@@ -13,15 +13,15 @@ export default function AnalyticsCards({
   averageRating,
   statusDistribution,
 }: AnalyticsCardsProps) {
-  const activeFeedback = statusDistribution.find(s => s._id === 'active')?.count || 0;
-  const archivedFeedback = statusDistribution.find(s => s._id === 'archived')?.count || 0;
+    const activeFeedback = statusDistribution['active'] || 0;
+  const archivedFeedback = statusDistribution['archived'] || 0;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
       <div className="bg-white rounded-lg shadow p-6">
         <div className="flex items-center">
           <div className="p-2 bg-blue-100 rounded-lg">
-            <MessageSquare className="h-6 w-6 text-blue-600" />
+            <MessageSquare className="h-6 w-6 text-primary" />
           </div>
           <div className="ml-4">
             <p className="text-sm font-medium text-gray-600">Total Feedback</p>

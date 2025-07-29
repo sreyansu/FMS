@@ -64,7 +64,7 @@ export default function SignupPage() {
       <div className="max-w-md w-full space-y-8">
         <div>
           <div className="flex justify-center">
-            <UserPlus className="h-12 w-12 text-blue-600" />
+                        <UserPlus className="h-12 w-12 text-primary" />
           </div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Create your account
@@ -73,7 +73,7 @@ export default function SignupPage() {
             Or{' '}
             <Link
               href="/login"
-              className="font-medium text-blue-600 hover:text-blue-500"
+              className="font-medium text-primary hover:text-primary-dark"
             >
               sign in to your existing account
             </Link>

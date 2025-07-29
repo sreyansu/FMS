@@ -16,9 +16,7 @@ export const loginSchema = z.object({
 });
 
 export const feedbackSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters').max(50, 'Name must be less than 50 characters'),
-  email: z.string().email('Invalid email address'),
-  rating: z.number().min(1, 'Rating must be at least 1').max(5, 'Rating must be at most 5'),
+  rating: z.number().min(1, 'Rating is required').max(5, 'Rating must be at most 5'),
   message: z.string().min(10, 'Message must be at least 10 characters').max(1000, 'Message must be less than 1000 characters'),
 });
 
