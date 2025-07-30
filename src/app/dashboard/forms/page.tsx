@@ -1,13 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Plus, FileText, Hash } from 'lucide-react';
+import { Plus, FileText, Hash, Edit, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 
-import Button from '@/components/ui/Button';
-
-import Switch from '@/components/ui/Switch';
+import Button from '../../../components/ui/Button';
+import Switch from '../../../components/ui/Switch';
+import Modal from '../../../components/ui/Modal';
 
 interface IForm {
   _id: string;
@@ -19,8 +19,41 @@ interface IForm {
 }
 
 export default function FormsPage() {
-    const [forms, setForms] = useState<IForm[]>([]);
+  const [forms, setForms] = useState<IForm[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [formToDelete, setFormToDelete] = useState<string | null>(null);
+
+  const handleDelete = async () => {
+    if (!formToDelete) return;
+
+    const originalForms = [...forms];
+    const updatedForms = forms.filter(form => form._id !== formToDelete);
+    setForms(updatedForms);
+    setShowDeleteModal(false);
+
+    try {
+      const response = await fetch(`/api/forms/${formToDelete}`,
+        {
+          method: 'DELETE',
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to delete form');
+      }
+
+      toast.success('Form deleted successfully');
+      setFormToDelete(null);
+    } catch (error) {
+      setForms(originalForms);
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error('An unknown error occurred.');
+      }
+    }
+  };
 
   const handleStatusChange = async (formId: string, newStatus: 'active' | 'closed') => {
     const originalForms = [...forms];
@@ -74,15 +107,8 @@ export default function FormsPage() {
     fetchForms();
   }, []);
   return (
-    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Manage Forms</h1>
-        <Link href="/dashboard/forms/create">
-          <Button className="flex items-center">
-            <Plus className="h-5 w-5 mr-2" /> Create Form
-          </Button>
-        </Link>
-      </div>
+    <div>
+      <h1 className="text-3xl font-bold text-gray-900 mb-6">Manage Forms</h1>
             {loading ? (
         <div className="text-center text-gray-500">Loading forms...</div>
       ) : forms.length > 0 ? (
@@ -106,10 +132,27 @@ export default function FormsPage() {
                   <Hash className="h-4 w-4 mx-2" />
                   <span>{form.fields.length} fields</span>
                 </div>
-                <Switch 
-                  checked={form.status === 'active'}
-                                    onCheckedChange={(checked: boolean) => handleStatusChange(form._id, checked ? 'active' : 'closed')}
-                />
+                <div className="flex items-center gap-2">
+                  <Link href={`/dashboard/forms/edit/${form._id}`}>
+                    <Button variant="icon" size="icon">
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                  </Link>
+                  <Button
+                    variant="icon"
+                    size="icon"
+                    onClick={() => {
+                      setFormToDelete(form._id);
+                      setShowDeleteModal(true);
+                    }}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                  <Switch 
+                    checked={form.status === 'active'}
+                    onCheckedChange={(checked: boolean) => handleStatusChange(form._id, checked ? 'active' : 'closed')}
+                  />
+                </div>
               </div>
             </div>
           ))}
@@ -119,6 +162,14 @@ export default function FormsPage() {
           <p className="text-gray-500">No forms created yet.</p>
         </div>
       )}
+      <Modal
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onConfirm={handleDelete}
+        title="Delete Form"
+      >
+        <p>Are you sure you want to delete this form? This action cannot be undone.</p>
+      </Modal>
     </div>
   );
 }
